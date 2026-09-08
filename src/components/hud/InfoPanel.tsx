@@ -1,10 +1,10 @@
-import { ALL_BODIES } from '../../data/planets'
+import { findBody } from '../../data/planets'
 import { useStore } from '../../store'
 
 export default function InfoPanel() {
   const selectedId = useStore((s) => s.selectedId)
   const select = useStore((s) => s.select)
-  const body = ALL_BODIES.find((b) => b.id === selectedId) ?? null
+  const body = findBody(selectedId)
 
   return (
     <aside className={`hud hud-info panel${body ? ' open' : ''}`}>

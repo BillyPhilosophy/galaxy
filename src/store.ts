@@ -1,8 +1,11 @@
 import { create } from 'zustand'
+import { isMoonId } from './data/planets'
 
 interface SolarState {
   started: boolean
   paused: boolean
+  /** 选中卫星时派生的"系统停转"，不影响用户的 paused 设置 */
+  halted: boolean
   speed: number
   showOrbits: boolean
   showLabels: boolean
@@ -20,6 +23,7 @@ interface SolarState {
 export const useStore = create<SolarState>()((set) => ({
   started: false,
   paused: false,
+  halted: false,
   speed: 1,
   showOrbits: true,
   showLabels: true,
@@ -30,6 +34,6 @@ export const useStore = create<SolarState>()((set) => ({
   setSpeed: (v) => set({ speed: v }),
   toggleOrbits: () => set((s) => ({ showOrbits: !s.showOrbits })),
   toggleLabels: () => set((s) => ({ showLabels: !s.showLabels })),
-  select: (id) => set({ selectedId: id }),
-  resetView: () => set((s) => ({ viewResetTick: s.viewResetTick + 1, selectedId: null })),
+  select: (id) => set({ selectedId: id, halted: id !== null && isMoonId(id) }),
+  resetView: () => set((s) => ({ viewResetTick: s.viewResetTick + 1, selectedId: null, halted: false })),
 }))

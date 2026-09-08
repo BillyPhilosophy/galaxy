@@ -1,7 +1,7 @@
 import { useMemo, useRef } from 'react'
 import { useFrame } from '@react-three/fiber'
 import * as THREE from 'three'
-import { focusDistance } from '../../data/planets'
+import { focusDistance, moonHostId } from '../../data/planets'
 import { useStore } from '../../store'
 import { bodyRegistry } from './registry'
 
@@ -32,14 +32,16 @@ export default function CameraRig() {
 
     if (selectedId) {
       returning.current = false
-      const g = bodyRegistry.get(selectedId)
+      // 卫星选中时聚焦其宿主行星
+      const focusId = moonHostId(selectedId) ?? selectedId
+      const g = bodyRegistry.get(focusId)
       if (!g) return
       g.getWorldPosition(tmp)
       controls.target.lerp(tmp, k)
       // 保持当前视线方向，把相机拉到目标附近
       desired.copy(state.camera.position).sub(tmp)
       if (desired.lengthSq() < 1e-6) desired.set(0, 0.4, 1)
-      desired.normalize().multiplyScalar(focusDistance(selectedId)).add(tmp)
+      desired.normalize().multiplyScalar(focusDistance(focusId)).add(tmp)
       state.camera.position.lerp(desired, k * 0.85)
       controls.update()
       return

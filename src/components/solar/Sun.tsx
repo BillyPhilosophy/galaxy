@@ -30,8 +30,8 @@ export default function Sun() {
   }, [])
 
   useFrame((_, delta) => {
-    const { paused, speed } = useStore.getState()
-    if (!paused) meshRef.current.rotation.y += delta * speed * 0.05
+    const { paused, halted, speed } = useStore.getState()
+    if (!paused && !halted) meshRef.current.rotation.y += delta * speed * 0.05
   })
 
   const handleClick = (e: ThreeEvent<MouseEvent>) => {
