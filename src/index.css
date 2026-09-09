@@ -244,6 +244,8 @@ body {
   font-size: 11.5px;
   letter-spacing: 0.1em;
   color: #9da0a8;
+  white-space: nowrap;
+  flex: none;
 }
 .ctl-speed-val {
   font-size: 12px;
@@ -1291,12 +1293,14 @@ a.system-back {
   flex-direction: column;
   gap: 2px;
   min-width: 92px;
+  flex: none;
 }
 .chapter-stage b {
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.1em;
   color: #ffb85e;
+  white-space: nowrap;
 }
 .chapter-stage span {
   font-size: 8.5px;
@@ -1343,6 +1347,44 @@ a.system-back {
   50% {
     box-shadow: 0 0 26px 7px rgba(255, 143, 12, 0.3);
   }
+}
+.sun-badge {
+  margin-left: 8px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(255, 215, 110, 0.16);
+  border: 1px solid rgba(255, 215, 110, 0.45);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: #ffd76e;
+}
+.chapter-mass {
+  min-width: 56px;
+  flex: none;
+  font-size: 11px;
+  color: #ffb85e;
+  text-align: right;
+}
+
+/* ---------- 主序星 · 赫罗图 ---------- */
+.hr-panel {
+  left: 24px;
+  bottom: 20px;
+  padding: 12px 14px 8px;
+}
+.hr-title {
+  margin-bottom: 6px;
+  font-size: 9px;
+  letter-spacing: 0.26em;
+  color: rgba(246, 201, 68, 0.75);
+}
+.hr-axes {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  font-size: 8.5px;
+  letter-spacing: 0.12em;
+  color: #74777f;
 }
 
 /* ---------- 移动端适配 ---------- */
@@ -1476,5 +1518,11 @@ a.system-back {
   }
   .nebula-next {
     bottom: 76px;
+  }
+  .hr-panel {
+    display: none;
+  }
+  .chapter-stage--fate {
+    display: none;
   }
 }
