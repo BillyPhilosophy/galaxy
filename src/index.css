@@ -1252,6 +1252,93 @@ a.system-back {
   color: rgba(255, 255, 255, 0.25);
 }
 
+/* ---------- 沉浸章节页 ---------- */
+.chapter-page {
+  position: fixed;
+  inset: 0;
+  background: #020204;
+}
+.chapter-page canvas {
+  display: block;
+  touch-action: none;
+}
+.chapter-top {
+  top: 20px;
+  left: 24px;
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+}
+.chapter-info-toggle {
+  top: 20px;
+  right: 24px;
+}
+.chapter-controls {
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 16px;
+  max-width: calc(100vw - 24px);
+}
+.chapter-slider {
+  width: 180px;
+}
+.chapter-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 92px;
+}
+.chapter-stage b {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #ffb85e;
+}
+.chapter-stage span {
+  font-size: 8.5px;
+  letter-spacing: 0.18em;
+  color: #74777f;
+}
+.chapter-readouts {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: #9da0a8;
+  white-space: nowrap;
+}
+.nebula-next {
+  position: absolute;
+  bottom: 96px;
+  left: 50%;
+  z-index: 21;
+  transform: translateX(-50%);
+  padding: 11px 24px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ffb85e, #ff8f0c);
+  color: #0c0c10;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-indent: 0.14em;
+  text-decoration: none;
+  animation: beyond-in 0.5s cubic-bezier(0.4, 0, 0.2, 1) both, next-pulse 2.2s ease-in-out 0.5s infinite;
+}
+@keyframes next-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 143, 12, 0.45);
+  }
+  50% {
+    box-shadow: 0 0 26px 7px rgba(255, 143, 12, 0.3);
+  }
+}
+
 /* ---------- 移动端适配 ---------- */
 @media (max-width: 860px) {
   .hud-header {
@@ -1361,5 +1448,27 @@ a.system-back {
   }
   .scale-hint {
     display: none;
+  }
+  .chapter-top {
+    top: 14px;
+    left: 16px;
+  }
+  .chapter-info-toggle {
+    top: 14px;
+    right: 16px;
+  }
+  .chapter-controls {
+    bottom: 12px;
+    gap: 9px;
+    padding: 8px 12px;
+  }
+  .chapter-slider {
+    width: 110px;
+  }
+  .chapter-readouts {
+    display: none;
+  }
+  .nebula-next {
+    bottom: 76px;
   }
 }

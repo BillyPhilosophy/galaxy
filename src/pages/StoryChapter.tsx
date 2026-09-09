@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { Link, Navigate, useNavigate, useParams } from 'react-router'
 import { chapterNeighbor, findChapter, MASSIVE_BRANCH, SUN_BRANCH } from '../data/story'
+import NebulaChapter from '../components/story/NebulaChapter'
 
 export default function StoryChapter() {
   const { id } = useParams()
@@ -17,6 +18,7 @@ export default function StoryChapter() {
   }, [navigate])
 
   if (!ch) return <Navigate to="/story" replace />
+  if (ch.id === 'nebula') return <NebulaChapter ch={ch} prev={prev} next={next} />
 
   return (
     <div className="system-page">
