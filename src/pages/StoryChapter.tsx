@@ -4,6 +4,7 @@ import { chapterNeighbor, findChapter, MASSIVE_BRANCH, SUN_BRANCH } from '../dat
 import NebulaChapter from '../components/story/NebulaChapter'
 import ProtostarChapter from '../components/story/ProtostarChapter'
 import MainSequenceChapter from '../components/story/MainSequenceChapter'
+import RedGiantChapter from '../components/story/RedGiantChapter'
 
 export default function StoryChapter() {
   const { id } = useParams()
@@ -23,6 +24,7 @@ export default function StoryChapter() {
   if (ch.id === 'nebula') return <NebulaChapter ch={ch} prev={prev} next={next} />
   if (ch.id === 'protostar') return <ProtostarChapter ch={ch} prev={prev} next={next} />
   if (ch.id === 'main-sequence') return <MainSequenceChapter ch={ch} prev={prev} next={next} />
+  if (ch.id === 'red-giant') return <RedGiantChapter ch={ch} prev={prev} next={next} />
 
   return (
     <div className="system-page">
