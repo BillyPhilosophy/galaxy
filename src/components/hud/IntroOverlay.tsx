@@ -43,6 +43,9 @@ export default function IntroOverlay() {
             <button className="intro-btn intro-btn--ghost" onClick={() => setView('beyond')}>
               太阳之外
             </button>
+            <Link to="/story" className="intro-btn intro-btn--ghost">
+              宇宙叙事
+            </Link>
           </div>
           <div className="intro-meta mono">
             <span>8 大行星</span>
