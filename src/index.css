@@ -1286,13 +1286,14 @@ a.system-back {
   max-width: calc(100vw - 24px);
 }
 .chapter-slider {
-  width: 180px;
+  flex: 1 1 120px;
+  max-width: 180px;
 }
 .chapter-stage {
   display: flex;
   flex-direction: column;
   gap: 2px;
-  min-width: 92px;
+  width: 176px;
   flex: none;
 }
 .chapter-stage b {
@@ -1313,10 +1314,15 @@ a.system-back {
 .chapter-stage--burst span {
   color: rgba(255, 122, 92, 0.65);
 }
+.chapter-stage--fate {
+  width: 140px;
+}
 .chapter-readouts {
   display: flex;
   flex-direction: column;
   gap: 3px;
+  width: 200px;
+  flex: none;
   font-size: 10px;
   letter-spacing: 0.06em;
   color: #9da0a8;
@@ -1451,6 +1457,46 @@ a.system-back {
   margin-top: 14px;
 }
 
+/* ---------- 白矮星 · 结局面板 / 超新星闪白 ---------- */
+.wd-ending {
+  left: 50%;
+  bottom: 96px;
+  transform: translateX(-50%);
+  width: min(480px, calc(100vw - 32px));
+  padding: 18px 22px 16px;
+  text-align: center;
+  animation: beyond-in 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+.wd-ending-text {
+  margin: 12px 0 0;
+  font-size: 12px;
+  line-height: 2;
+  color: #9da0a8;
+}
+.wd-next-link {
+  position: static;
+  display: inline-block;
+  margin-top: 14px;
+  transform: none;
+  animation: next-pulse 2.2s ease-in-out infinite;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+.sn-flash {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: #fff;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.12s ease-in;
+}
+.sn-flash.on {
+  opacity: 1;
+  transition: opacity 0.45s ease-out;
+}
+
 /* ---------- 移动端适配 ---------- */
 @media (max-width: 860px) {
   .hud-header {
@@ -1575,7 +1621,12 @@ a.system-back {
     padding: 8px 12px;
   }
   .chapter-slider {
-    width: 110px;
+    flex: 1 1 60px;
+    max-width: none;
+    width: auto;
+  }
+  .chapter-stage {
+    display: none;
   }
   .chapter-readouts {
     display: none;
@@ -1595,5 +1646,9 @@ a.system-back {
   .giant-fork {
     bottom: 76px;
     padding: 14px 14px 12px;
+  }
+  .wd-ending {
+    bottom: 76px;
+    padding: 14px 16px 12px;
   }
 }
