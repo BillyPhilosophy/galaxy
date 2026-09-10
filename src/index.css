@@ -1497,6 +1497,43 @@ a.system-back {
   transition: opacity 0.45s ease-out;
 }
 
+/* ---------- 中子星 · 参数图垫 / 波形图 / 导览字幕 ---------- */
+.ns-pad {
+  left: 24px;
+  bottom: 20px;
+  padding: 12px 14px 8px;
+  user-select: none;
+}
+.ns-pad svg {
+  display: block;
+  touch-action: none;
+  cursor: crosshair;
+}
+.ns-pad-label {
+  font-size: 8px;
+  fill: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.1em;
+}
+.ns-wave {
+  right: 24px;
+  bottom: 20px;
+  padding: 12px 14px 10px;
+}
+.ns-wave canvas {
+  display: block;
+}
+.ns-caption {
+  left: 50%;
+  bottom: 96px;
+  transform: translateX(-50%);
+  padding: 10px 22px;
+  font-size: 12.5px;
+  letter-spacing: 0.12em;
+  color: #ffb85e;
+  white-space: nowrap;
+  animation: beyond-in 0.4s ease both;
+}
+
 /* ---------- 移动端适配 ---------- */
 @media (max-width: 860px) {
   .hud-header {
@@ -1650,5 +1687,13 @@ a.system-back {
   .wd-ending {
     bottom: 76px;
     padding: 14px 16px 12px;
+  }
+  .ns-pad,
+  .ns-wave {
+    display: none;
+  }
+  .ns-caption {
+    bottom: 76px;
+    font-size: 11.5px;
   }
 }
