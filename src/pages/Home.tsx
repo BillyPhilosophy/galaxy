@@ -5,7 +5,6 @@ import Header from '../components/hud/Header'
 import PlanetNav from '../components/hud/PlanetNav'
 import ControlBar from '../components/hud/ControlBar'
 import InfoPanel from '../components/hud/InfoPanel'
-import IntroOverlay from '../components/hud/IntroOverlay'
 import Hint from '../components/hud/Hint'
 import { useStore } from '../store'
 
@@ -27,7 +26,6 @@ export default function Home() {
       <ControlBar />
       <InfoPanel />
       <Hint />
-      <IntroOverlay />
     </div>
   )
 }

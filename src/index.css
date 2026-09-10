@@ -125,6 +125,19 @@ body {
   left: 24px;
   pointer-events: none;
 }
+.hud-back {
+  pointer-events: auto;
+  display: inline-block;
+  margin-bottom: 8px;
+  color: #74777f;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.hud-back:hover {
+  color: #ffb85e;
+}
 .hud-title {
   display: flex;
   align-items: center;

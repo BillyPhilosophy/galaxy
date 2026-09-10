@@ -1,4 +1,5 @@
 import { Routes, Route } from 'react-router'
+import IntroPage from './pages/IntroPage'
 import Home from './pages/Home'
 import SystemPage from './pages/SystemPage'
 import StoryHub from './pages/StoryHub'
@@ -8,7 +9,8 @@ import StoryScale from './pages/StoryScale'
 export default function App() {
   return (
     <Routes>
-      <Route path="/" element={<Home />} />
+      <Route path="/" element={<IntroPage />} />
+      <Route path="/solar" element={<Home />} />
       <Route path="/system/:id" element={<SystemPage />} />
       <Route path="/story" element={<StoryHub />} />
       <Route path="/story/scale" element={<StoryScale />} />
