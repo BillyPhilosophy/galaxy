@@ -1,12 +1,14 @@
 import { Link, Navigate, useParams } from 'react-router'
 import { findSystem } from '../data/systems'
 import PistolSystem from '../components/beyond/PistolSystem'
+import ThreeBodySystem from '../components/beyond/ThreeBodySystem'
 
 export default function SystemPage() {
   const { id } = useParams()
   const system = findSystem(id)
   if (!system) return <Navigate to="/" replace />
   if (system.id === 'pistol-star') return <PistolSystem system={system} />
+  if (system.id === 'three-body') return <ThreeBodySystem system={system} />
 
   return (
     <div className="system-page">

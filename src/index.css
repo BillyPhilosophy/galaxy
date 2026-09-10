@@ -1537,6 +1537,39 @@ a.system-back {
   top: 20px;
   right: 24px;
 }
+.era-chip {
+  margin-left: 8px;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+}
+.tb-modes {
+  display: flex;
+  gap: 6px;
+}
+.tb-modes .ctl-toggle {
+  padding: 7px 10px;
+}
+.chapter-fork-options button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 6px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  background: none;
+  color: #ececec;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.2s, background 0.2s;
+}
+.chapter-fork-options button:hover {
+  border-color: rgba(255, 143, 12, 0.5);
+  background: rgba(255, 143, 12, 0.08);
+}
 
 /* ---------- 移动端适配 ---------- */
 @media (max-width: 860px) {

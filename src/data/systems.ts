@@ -75,6 +75,22 @@ export const STAR_SYSTEMS: StarSystemData[] = [
       { label: '著名行星', value: '比邻星 b（超级地球）' },
     ],
   },
+  {
+    id: 'three-body',
+    name: '三体运动',
+    nameEn: 'THREE-BODY PROBLEM',
+    color: '#c9b8ff',
+    starType: '混沌引力实验',
+    distance: '灵感源自半人马座α',
+    description:
+      '三颗恒星在引力作用下的舞蹈：没有通解、充满混沌。拉格朗日的等边三角形与 8 字轨道是稀有的秩序孤岛；更多时候是一场无法预测的乱舞，直到一颗星被抛出系统。半人马座α——比邻星的家——正是这样的三合星，也是《三体》的灵感来源。',
+    facts: [
+      { label: '类型', value: '三体问题演示' },
+      { label: '著名解', value: '8 字轨道 · 拉格朗日三角' },
+      { label: '特点', value: '混沌 · 无通解' },
+      { label: '现实对应', value: '半人马座α 三合星' },
+    ],
+  },
 ]
 
 export function findSystem(id: string | null | undefined): StarSystemData | null {
