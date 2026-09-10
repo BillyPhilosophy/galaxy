@@ -7,6 +7,7 @@ import MainSequenceChapter from '../components/story/MainSequenceChapter'
 import RedGiantChapter from '../components/story/RedGiantChapter'
 import WhiteDwarfChapter from '../components/story/WhiteDwarfChapter'
 import NeutronStarChapter from '../components/story/NeutronStarChapter'
+import BlackHoleChapter from '../components/story/BlackHoleChapter'
 
 export default function StoryChapter() {
   const { id } = useParams()
@@ -29,6 +30,7 @@ export default function StoryChapter() {
   if (ch.id === 'red-giant') return <RedGiantChapter ch={ch} prev={prev} next={next} />
   if (ch.id === 'white-dwarf') return <WhiteDwarfChapter ch={ch} prev={prev} next={next} />
   if (ch.id === 'neutron-star') return <NeutronStarChapter ch={ch} prev={prev} next={next} />
+  if (ch.id === 'black-hole') return <BlackHoleChapter ch={ch} prev={prev} next={next} />
 
   return (
     <div className="system-page">

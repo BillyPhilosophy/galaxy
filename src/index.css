@@ -1533,6 +1533,10 @@ a.system-back {
   white-space: nowrap;
   animation: beyond-in 0.4s ease both;
 }
+.bh-skip {
+  top: 20px;
+  right: 24px;
+}
 
 /* ---------- 移动端适配 ---------- */
 @media (max-width: 860px) {
