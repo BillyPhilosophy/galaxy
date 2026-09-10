@@ -84,8 +84,8 @@ export default function ProtostarChapter({
   return (
     <ChapterShell
       ch={ch}
-      prev={prev}
-      next={next}
+      prev={prev ? { title: prev.title, to: `/story/${prev.id}` } : null}
+      next={next ? { title: next.title, to: `/story/${next.id}` } : null}
       controls={controls}
       selectedHotspot={selectedHotspot}
       onCloseHotspot={() => setSelectedId(null)}

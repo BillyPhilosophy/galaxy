@@ -1,13 +1,11 @@
 import { Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import { Canvas } from '@react-three/fiber'
 import { Link } from 'react-router'
-import type { StoryChapter } from '../../data/story'
-import { MASSIVE_BRANCH, SUN_BRANCH } from '../../data/story'
+import type { StarSystemData } from '../../data/systems'
 import { useIsMobile } from '../../hooks/use-mobile'
-import ChapterShell from './ChapterShell'
-import RedGiantScene from './RedGiantScene'
-import { FATE_COLORS, GIANT_PLANETS, giantStageOf, lumAt, planetFate, radiusAt, tempAt, RG_HOTSPOTS } from './redGiantData'
-import { formatLum } from './mainSequenceData'
+import ChapterShell from '../story/ChapterShell'
+import PistolScene from './PistolScene'
+import { ejectaAt, lumAt, pistolStageOf, PISTOL_HOTSPOTS } from './pistolData'
 
 const PlayIcon = (
   <svg width="11" height="11" viewBox="0 0 12 12" aria-hidden>
@@ -36,15 +34,7 @@ const ResetIcon = (
   </svg>
 )
 
-export default function RedGiantChapter({
-  ch,
-  prev,
-  next,
-}: {
-  ch: StoryChapter
-  prev: StoryChapter | null
-  next: StoryChapter | null
-}) {
+export default function PistolSystem({ system }: { system: StarSystemData }) {
   const [progress, setProgress] = useState(0)
   const [playing, setPlaying] = useState(false)
   const [selectedId, setSelectedId] = useState<string | null>(null)
@@ -64,7 +54,7 @@ export default function RedGiantChapter({
     const step = (now: number) => {
       const dt = Math.min((now - last) / 1000, 0.1)
       last = now
-      const v = progressRef.current + dt / 45
+      const v = progressRef.current + dt / 40
       apply(v)
       if (v >= 1) {
         setPlaying(false)
@@ -76,17 +66,27 @@ export default function RedGiantChapter({
     return () => cancelAnimationFrame(raf)
   }, [playing, apply])
 
-  const selectedHotspot = RG_HOTSPOTS.find((h) => h.id === selectedId) ?? null
-  const stage = giantStageOf(progress)
+  const selectedHotspot = PISTOL_HOTSPOTS.find((h) => h.id === selectedId) ?? null
+  const stage = pistolStageOf(progress)
   const done = progress >= 0.97
-  const r = radiusAt(progress)
+  const ejecta = ejectaAt(progress)
+
+  const ch = {
+    color: system.color,
+    title: system.name,
+    titleEn: system.nameEn,
+    num: 'BEYOND · 01',
+    teaser: `${system.starType} · ${system.distance}`,
+    description: system.description,
+    facts: system.facts,
+  }
 
   const controls = (
     <div className="hud chapter-controls panel">
       <button
         className="ctl-btn"
         onClick={() => setPlaying(!playing)}
-        title={playing ? '暂停' : '播放膨胀'}
+        title={playing ? '暂停' : '播放喷发'}
       >
         {playing ? PauseIcon : PlayIcon}
       </button>
@@ -101,7 +101,7 @@ export default function RedGiantChapter({
           setPlaying(false)
           apply(Number(e.target.value))
         }}
-        aria-label="膨胀进度"
+        aria-label="喷发进度"
       />
       <button
         className="ctl-btn"
@@ -120,10 +120,10 @@ export default function RedGiantChapter({
       </div>
       <div className="ctl-sep" />
       <div className="chapter-readouts mono">
+        <span>光度 约 {Math.round(lumAt(progress)).toLocaleString()} 万 L☉</span>
         <span>
-          半径 {r < 10 ? r.toFixed(1) : Math.round(r)} R☉ · {Math.round(tempAt(progress)).toLocaleString()} K
+          {ejecta > 0 ? `已抛出 ${ejecta.toFixed(1)} M☉ · 壳体 60 km/s` : '强星风持续外吹'}
         </span>
-        <span>光度 {formatLum(lumAt(progress))}</span>
       </div>
     </div>
   )
@@ -131,56 +131,37 @@ export default function RedGiantChapter({
   return (
     <ChapterShell
       ch={ch}
-      prev={prev ? { title: prev.title, to: `/story/${prev.id}` } : null}
-      next={next ? { title: next.title, to: `/story/${next.id}` } : null}
+      backTo="/"
+      backLabel="← 返回首页"
+      next={{ title: '大角星', to: '/system/arcturus' }}
       controls={controls}
       selectedHotspot={selectedHotspot}
       onCloseHotspot={() => setSelectedId(null)}
       overlay={
-        <>
-          <div className="hud giant-planets panel">
-            {GIANT_PLANETS.map((pl) => {
-              const fate = planetFate(progress, pl)
-              return (
-                <div key={pl.id} className="giant-planet-row">
-                  <span className="giant-planet-dot" style={{ background: pl.color }} />
-                  <span className="giant-planet-name">{pl.name}</span>
-                  <span className="giant-planet-au mono">{pl.orbitAu.toFixed(2)} AU</span>
-                  <span className="giant-planet-fate" style={{ color: FATE_COLORS[fate] }}>
-                    {fate}
-                  </span>
-                </div>
-              )
-            })}
+        done && (
+          <div className="hud wd-ending panel">
+            <div className="giant-fork-title">它还能燃烧约百万年</div>
+            <p className="wd-ending-text">
+              然后以超新星谢幕——这样亮度的恒星，注定活得短而灿烂。
+            </p>
+            <Link to="/system/arcturus" className="nebula-next wd-next-link">
+              下一站 · 大角星 →
+            </Link>
           </div>
-          {done && (
-            <div className="hud giant-fork panel">
-              <div className="giant-fork-title">氢已燃尽 · 它的命运？</div>
-              <div className="giant-fork-sub mono">FATE DECIDED BY MASS</div>
-              <div className="chapter-fork-options">
-                {[...SUN_BRANCH, ...MASSIVE_BRANCH].map((o) => (
-                  <Link key={o.id} to={`/story/${o.id}`}>
-                    {o.title}
-                    <span className="mono">{o.mass}</span>
-                  </Link>
-                ))}
-              </div>
-            </div>
-          )}
-        </>
+        )
       }
     >
       <Canvas
-        camera={{ position: [0, 22, 44], fov: 50, near: 0.5, far: 5000 }}
+        camera={{ position: [0, 10, 42], fov: 50, near: 0.1, far: 2000 }}
         dpr={[1, 2]}
         gl={{ antialias: true, alpha: false }}
       >
         <Suspense fallback={null}>
-          <RedGiantScene
+          <PistolScene
             progressRef={progressRef}
             selected={selectedId}
             onSelect={setSelectedId}
-            counts={{ loss: isMobile ? 1300 : 2600 }}
+            counts={isMobile ? { shells: 9000, wind: 2200 } : { shells: 20000, wind: 4500 }}
           />
         </Suspense>
       </Canvas>

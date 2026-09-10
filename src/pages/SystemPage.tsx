@@ -1,10 +1,12 @@
 import { Link, Navigate, useParams } from 'react-router'
 import { findSystem } from '../data/systems'
+import PistolSystem from '../components/beyond/PistolSystem'
 
 export default function SystemPage() {
   const { id } = useParams()
   const system = findSystem(id)
   if (!system) return <Navigate to="/" replace />
+  if (system.id === 'pistol-star') return <PistolSystem system={system} />
 
   return (
     <div className="system-page">

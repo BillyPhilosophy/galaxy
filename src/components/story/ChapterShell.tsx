@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react'
 import type { ReactNode } from 'react'
 import { Link, useNavigate } from 'react-router'
-import type { StoryChapter } from '../../data/story'
 
 interface ChapterHotspot {
   id: string
@@ -11,10 +10,28 @@ interface ChapterHotspot {
   facts: { label: string; value: string }[]
 }
 
+export interface ShellChapter {
+  color: string
+  title: string
+  titleEn: string
+  num: string
+  teaser: string
+  description: string
+  facts: { label: string; value: string }[]
+}
+
+export interface ShellNav {
+  title: string
+  to: string
+}
+
 interface ChapterShellProps {
-  ch: StoryChapter
-  prev: StoryChapter | null
-  next: StoryChapter | null
+  ch: ShellChapter
+  prev?: ShellNav | null
+  next?: ShellNav | null
+  /** 返回链接，默认时间轴 */
+  backTo?: string
+  backLabel?: string
   /** 全屏 Canvas 场景 */
   children: ReactNode
   /** 底部控制条 */
@@ -27,17 +44,28 @@ interface ChapterShellProps {
 }
 
 /** 沉浸章节通用外壳：全屏场景 + 左上标题 + 可收起的信息浮窗 */
-export default function ChapterShell({ ch, prev, next, children, controls, overlay, selectedHotspot, onCloseHotspot }: ChapterShellProps) {
+export default function ChapterShell({
+  ch,
+  prev,
+  next,
+  backTo = '/story',
+  backLabel = '← 时间轴',
+  children,
+  controls,
+  overlay,
+  selectedHotspot,
+  onCloseHotspot,
+}: ChapterShellProps) {
   const [panelOpen, setPanelOpen] = useState(() => window.innerWidth >= 768)
   const navigate = useNavigate()
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') navigate('/story')
+      if (e.key === 'Escape') navigate(backTo)
     }
     window.addEventListener('keydown', onKey)
     return () => window.removeEventListener('keydown', onKey)
-  }, [navigate])
+  }, [navigate, backTo])
 
   const showingHotspot = !!selectedHotspot
   const open = panelOpen || showingHotspot
@@ -46,8 +74,8 @@ export default function ChapterShell({ ch, prev, next, children, controls, overl
     <div className="chapter-page">
       {children}
       <div className="hud chapter-top">
-        <Link to="/story" className="scale-back">
-          ← 时间轴
+        <Link to={backTo} className="scale-back">
+          {backLabel}
         </Link>
         <div className="scale-title">
           {ch.title}
@@ -112,14 +140,14 @@ export default function ChapterShell({ ch, prev, next, children, controls, overl
             </div>
             <div className="chapter-nav">
               {prev ? (
-                <Link className="chapter-nav-btn" to={`/story/${prev.id}`}>
+                <Link className="chapter-nav-btn" to={prev.to}>
                   ← {prev.title}
                 </Link>
               ) : (
                 <span />
               )}
               {next ? (
-                <Link className="chapter-nav-btn" to={`/story/${next.id}`}>
+                <Link className="chapter-nav-btn" to={next.to}>
                   {next.title} →
                 </Link>
               ) : (
