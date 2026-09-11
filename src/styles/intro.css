@@ -1,0 +1,377 @@
+/* ---------- 开场页 ---------- */
+.intro {
+  position: absolute;
+  inset: 0;
+  z-index: 50;
+  display: grid;
+  place-items: center;
+  background: radial-gradient(ellipse at 50% 118%, rgba(255, 143, 12, 0.16), transparent 55%),
+    #020204;
+  transition: opacity 0.8s ease, visibility 0.8s;
+}
+.intro--hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+.intro-inner {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0 24px;
+  animation: beyond-in 0.45s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+.intro-kicker {
+  font-size: 10px;
+  letter-spacing: 0.5em;
+  text-indent: 0.5em;
+  color: rgba(246, 201, 68, 0.85);
+}
+.intro-title {
+  margin: 20px 0 0;
+  font-size: clamp(54px, 11vw, 124px);
+  font-weight: 900;
+  letter-spacing: 0.1em;
+  line-height: 1.05;
+  background: linear-gradient(180deg, #ffffff 25%, #ffb85e 72%, #ff8f0c);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.intro-en {
+  margin-top: 16px;
+  font-size: 12px;
+  letter-spacing: 0.9em;
+  text-indent: 0.9em;
+  color: rgba(255, 255, 255, 0.45);
+}
+.intro-desc {
+  margin: 28px auto 0;
+  max-width: 420px;
+  text-align: center;
+  font-size: 13.5px;
+  line-height: 2.1;
+  color: #9da0a8;
+}
+.intro-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 15px 40px;
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.32em;
+  text-indent: 0.32em;
+  color: #0c0c10;
+  background: linear-gradient(135deg, #ffb85e, #ff8f0c);
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: transform 0.25s, box-shadow 0.25s;
+}
+.intro-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 44px rgba(255, 143, 12, 0.4);
+}
+a.intro-btn {
+  text-decoration: none;
+}
+.intro-meta {
+  margin-top: 44px;
+  display: flex;
+  gap: 28px;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: rgba(255, 255, 255, 0.32);
+}
+.intro-ring {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.intro-ring--a {
+  width: min(74vmin, 640px);
+  height: min(74vmin, 640px);
+  margin: calc(min(74vmin, 640px) / -2) 0 0 calc(min(74vmin, 640px) / -2);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  animation: spin 70s linear infinite;
+}
+.intro-ring--a::after {
+  content: '';
+  position: absolute;
+  top: -4px;
+  left: 50%;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #ff8f0c;
+  box-shadow: 0 0 14px 3px rgba(255, 143, 12, 0.7);
+}
+.intro-ring--b {
+  width: min(52vmin, 440px);
+  height: min(52vmin, 440px);
+  margin: calc(min(52vmin, 440px) / -2) 0 0 calc(min(52vmin, 440px) / -2);
+  border: 1px dashed rgba(255, 255, 255, 0.06);
+  animation: spin 46s linear infinite reverse;
+}
+.intro-ring--b::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background: #f6c944;
+  box-shadow: 0 0 10px 2px rgba(246, 201, 68, 0.7);
+}
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ---------- 开场页 · 太阳之外 ---------- */
+.intro-actions {
+  margin-top: 36px;
+  display: flex;
+  gap: 16px;
+}
+.intro-btn--ghost {
+  background: transparent;
+  color: #ffb85e;
+  border: 1px solid rgba(255, 143, 12, 0.55);
+}
+.intro-btn--ghost:hover {
+  background: rgba(255, 143, 12, 0.12);
+  box-shadow: 0 14px 44px rgba(255, 143, 12, 0.18);
+}
+.intro-beyond {
+  position: relative;
+  z-index: 2;
+  width: min(600px, calc(100vw - 48px));
+  padding: 30px 26px 20px;
+  animation: beyond-in 0.45s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+@keyframes beyond-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.beyond-back {
+  position: absolute;
+  top: 14px;
+  left: 16px;
+  background: none;
+  border: none;
+  color: #74777f;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  padding: 4px;
+  font-family: inherit;
+  transition: color 0.2s;
+}
+.beyond-back:hover {
+  color: #ffb85e;
+}
+.beyond-title {
+  margin: 8px 0 0;
+  text-align: center;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: 0.24em;
+  text-indent: 0.24em;
+}
+.beyond-sub {
+  margin-top: 8px;
+  text-align: center;
+  font-size: 9.5px;
+  letter-spacing: 0.5em;
+  text-indent: 0.5em;
+  color: rgba(246, 201, 68, 0.7);
+}
+.beyond-list {
+  margin-top: 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.beyond-item {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  padding: 11px 14px;
+  border-radius: 10px;
+  border: 1px solid transparent;
+  color: #ececec;
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s;
+}
+a.beyond-item:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 143, 12, 0.35);
+}
+.beyond-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  flex: none;
+}
+.beyond-names {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  min-width: 0;
+}
+.beyond-zh {
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+}
+.beyond-en {
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  color: #74777f;
+}
+.beyond-meta {
+  margin-left: auto;
+  font-size: 11px;
+  color: #9da0a8;
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+.beyond-arrow {
+  color: rgba(255, 143, 12, 0.8);
+  font-size: 13px;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 0.2s, transform 0.2s;
+}
+a.beyond-item:hover .beyond-arrow {
+  opacity: 1;
+  transform: none;
+}
+.beyond-item--disabled {
+  margin-top: 6px;
+  padding-top: 14px;
+  border-top: 1px dashed rgba(255, 255, 255, 0.1);
+  border-radius: 0;
+  opacity: 0.45;
+  cursor: not-allowed;
+  user-select: none;
+}
+.beyond-dot--dim {
+  background: #55565e;
+  animation: dim-blink 2.2s ease-in-out infinite;
+}
+@keyframes dim-blink {
+  0%,
+  100% {
+    opacity: 0.35;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+.beyond-decoding i {
+  font-style: normal;
+  animation: decoding 1.4s ease-in-out infinite;
+}
+.beyond-decoding i:nth-child(2) {
+  animation-delay: 0.25s;
+}
+.beyond-decoding i:nth-child(3) {
+  animation-delay: 0.5s;
+}
+@keyframes decoding {
+  0%,
+  100% {
+    opacity: 0.15;
+  }
+  40% {
+    opacity: 1;
+  }
+}
+.beyond-hint {
+  margin-top: 16px;
+  text-align: center;
+  font-size: 9px;
+  letter-spacing: 0.28em;
+  text-indent: 0.28em;
+  color: rgba(255, 255, 255, 0.25);
+}
+
+/* ---------- 星系占位页 ---------- */
+.system-page {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  padding: 24px;
+  overflow-y: auto;
+  background: radial-gradient(ellipse at 50% 118%, rgba(255, 143, 12, 0.12), transparent 55%),
+    #020204;
+}
+.system-card {
+  position: relative;
+  width: min(480px, 100%);
+  padding: 30px 28px 24px;
+  animation: beyond-in 0.45s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+.system-accent {
+  height: 3px;
+  width: 72px;
+  border-radius: 2px;
+  margin-bottom: 16px;
+}
+.system-wip {
+  margin-top: 18px;
+  padding: 11px 0;
+  text-align: center;
+  border: 1px dashed rgba(246, 201, 68, 0.35);
+  border-radius: 10px;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-indent: 0.3em;
+  color: rgba(246, 201, 68, 0.75);
+}
+a.system-back {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  text-indent: 0;
+}
+
+
+/* ---------- 移动端适配 ---------- */
+@media (max-width: 860px) {
+  .intro-meta {
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+    margin-top: 32px;
+  }
+  .intro-actions {
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-top: 30px;
+  }
+  .intro-beyond {
+    padding: 26px 16px 14px;
+  }
+  .beyond-meta,
+  .beyond-hint {
+    display: none;
+  }
+}

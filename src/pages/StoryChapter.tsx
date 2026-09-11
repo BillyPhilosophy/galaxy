@@ -1,14 +1,7 @@
 import { useEffect } from 'react'
 import { Link, Navigate, useNavigate, useParams } from 'react-router'
 import { chapterNeighbor, findChapter, MASSIVE_BRANCH, SUN_BRANCH } from '../data/story'
-import NebulaChapter from '../components/story/NebulaChapter'
-import ProtostarChapter from '../components/story/ProtostarChapter'
-import MainSequenceChapter from '../components/story/MainSequenceChapter'
-import RedGiantChapter from '../components/story/RedGiantChapter'
-import WhiteDwarfChapter from '../components/story/WhiteDwarfChapter'
-import NeutronStarChapter from '../components/story/NeutronStarChapter'
-import BlackHoleChapter from '../components/story/BlackHoleChapter'
-import GalaxyChapter from '../components/story/GalaxyChapter'
+import { CHAPTER_REGISTRY } from '../components/story/registry'
 
 export default function StoryChapter() {
   const { id } = useParams()
@@ -25,14 +18,8 @@ export default function StoryChapter() {
   }, [navigate])
 
   if (!ch) return <Navigate to="/story" replace />
-  if (ch.id === 'nebula') return <NebulaChapter ch={ch} prev={prev} next={next} />
-  if (ch.id === 'protostar') return <ProtostarChapter ch={ch} prev={prev} next={next} />
-  if (ch.id === 'main-sequence') return <MainSequenceChapter ch={ch} prev={prev} next={next} />
-  if (ch.id === 'red-giant') return <RedGiantChapter ch={ch} prev={prev} next={next} />
-  if (ch.id === 'white-dwarf') return <WhiteDwarfChapter ch={ch} prev={prev} next={next} />
-  if (ch.id === 'neutron-star') return <NeutronStarChapter ch={ch} prev={prev} next={next} />
-  if (ch.id === 'black-hole') return <BlackHoleChapter ch={ch} prev={prev} next={next} />
-  if (ch.id === 'galaxy') return <GalaxyChapter ch={ch} prev={prev} next={next} />
+  const Impl = CHAPTER_REGISTRY[ch.id]
+  if (Impl) return <Impl ch={ch} prev={prev} next={next} />
 
   return (
     <div className="system-page">

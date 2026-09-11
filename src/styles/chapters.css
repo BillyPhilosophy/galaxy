@@ -1,0 +1,360 @@
+/* ---------- 沉浸章节页 ---------- */
+.chapter-page {
+  position: fixed;
+  inset: 0;
+  background: #020204;
+}
+.chapter-page canvas {
+  display: block;
+  touch-action: none;
+}
+.chapter-top {
+  top: 20px;
+  left: 24px;
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+}
+.chapter-info-toggle {
+  top: 20px;
+  right: 24px;
+}
+.chapter-controls {
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 16px;
+  max-width: calc(100vw - 24px);
+}
+.chapter-slider {
+  flex: 1 1 120px;
+  max-width: 180px;
+}
+.chapter-stage {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  width: 176px;
+  flex: none;
+}
+.chapter-stage b {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  color: #ffb85e;
+  white-space: nowrap;
+}
+.chapter-stage span {
+  font-size: 8.5px;
+  letter-spacing: 0.18em;
+  color: #74777f;
+}
+.chapter-stage--burst b {
+  color: #ff7a5c;
+}
+.chapter-stage--burst span {
+  color: rgba(255, 122, 92, 0.65);
+}
+.chapter-stage--fate {
+  width: 140px;
+}
+.chapter-readouts {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: 200px;
+  flex: none;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: #9da0a8;
+  white-space: nowrap;
+}
+.nebula-next {
+  position: absolute;
+  bottom: 96px;
+  left: 50%;
+  z-index: 21;
+  transform: translateX(-50%);
+  padding: 11px 24px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ffb85e, #ff8f0c);
+  color: #0c0c10;
+  font-size: 12.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-indent: 0.14em;
+  text-decoration: none;
+  animation: beyond-in 0.5s cubic-bezier(0.4, 0, 0.2, 1) both, next-pulse 2.2s ease-in-out 0.5s infinite;
+}
+@keyframes next-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 143, 12, 0.45);
+  }
+  50% {
+    box-shadow: 0 0 26px 7px rgba(255, 143, 12, 0.3);
+  }
+}
+.sun-badge {
+  margin-left: 8px;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(255, 215, 110, 0.16);
+  border: 1px solid rgba(255, 215, 110, 0.45);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: #ffd76e;
+}
+.chapter-mass {
+  min-width: 56px;
+  flex: none;
+  font-size: 11px;
+  color: #ffb85e;
+  text-align: right;
+}
+
+/* ---------- 主序星 · 赫罗图 ---------- */
+.hr-panel {
+  left: 24px;
+  bottom: 20px;
+  padding: 12px 14px 8px;
+}
+.hr-title {
+  margin-bottom: 6px;
+  font-size: 9px;
+  letter-spacing: 0.26em;
+  color: rgba(246, 201, 68, 0.75);
+}
+.hr-axes {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 4px;
+  font-size: 8.5px;
+  letter-spacing: 0.12em;
+  color: #74777f;
+}
+
+/* ---------- 红巨星 · 行星命运面板 / 命运分岔 ---------- */
+.giant-planets {
+  right: 24px;
+  bottom: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding: 12px 16px;
+}
+.giant-planet-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 11.5px;
+}
+.giant-planet-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex: none;
+}
+.giant-planet-name {
+  letter-spacing: 0.08em;
+  color: #ececec;
+}
+.giant-planet-au {
+  font-size: 9px;
+  color: #74777f;
+  letter-spacing: 0.08em;
+}
+.giant-planet-fate {
+  margin-left: auto;
+  padding-left: 14px;
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+}
+.giant-fork {
+  left: 50%;
+  bottom: 96px;
+  transform: translateX(-50%);
+  width: min(460px, calc(100vw - 32px));
+  padding: 18px 20px 16px;
+  animation: beyond-in 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+.giant-fork-title {
+  text-align: center;
+  font-size: 15px;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  text-indent: 0.16em;
+}
+.giant-fork-sub {
+  margin-top: 5px;
+  text-align: center;
+  font-size: 8.5px;
+  letter-spacing: 0.34em;
+  text-indent: 0.34em;
+  color: rgba(246, 201, 68, 0.72);
+}
+.giant-fork .chapter-fork-options {
+  margin-top: 14px;
+}
+
+/* ---------- 白矮星 · 结局面板 / 超新星闪白 ---------- */
+.wd-ending {
+  left: 50%;
+  bottom: 96px;
+  transform: translateX(-50%);
+  width: min(480px, calc(100vw - 32px));
+  padding: 18px 22px 16px;
+  text-align: center;
+  animation: beyond-in 0.5s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+.wd-ending-text {
+  margin: 12px 0 0;
+  font-size: 12px;
+  line-height: 2;
+  color: #9da0a8;
+}
+.wd-next-link {
+  position: static;
+  display: inline-block;
+  margin-top: 14px;
+  transform: none;
+  animation: next-pulse 2.2s ease-in-out infinite;
+  border: none;
+  cursor: pointer;
+  font-family: inherit;
+}
+.sn-flash {
+  position: fixed;
+  inset: 0;
+  z-index: 60;
+  background: #fff;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.12s ease-in;
+}
+.sn-flash.on {
+  opacity: 1;
+  transition: opacity 0.45s ease-out;
+}
+
+/* ---------- 中子星 · 参数图垫 / 波形图 / 导览字幕 ---------- */
+.ns-pad {
+  left: 24px;
+  bottom: 20px;
+  padding: 12px 14px 8px;
+  user-select: none;
+}
+.ns-pad svg {
+  display: block;
+  touch-action: none;
+  cursor: crosshair;
+}
+.ns-pad-label {
+  font-size: 8px;
+  fill: rgba(255, 255, 255, 0.4);
+  letter-spacing: 0.1em;
+}
+.ns-wave {
+  right: 24px;
+  bottom: 20px;
+  padding: 12px 14px 10px;
+}
+.ns-wave canvas {
+  display: block;
+}
+.ns-caption {
+  left: 50%;
+  bottom: 96px;
+  transform: translateX(-50%);
+  padding: 10px 22px;
+  font-size: 12.5px;
+  letter-spacing: 0.12em;
+  color: #ffb85e;
+  white-space: nowrap;
+  animation: beyond-in 0.4s ease both;
+}
+.bh-skip {
+  top: 20px;
+  right: 24px;
+}
+.chapter-fork-options button {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 6px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  background: none;
+  color: #ececec;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.2s, background 0.2s;
+}
+.chapter-fork-options button:hover {
+  border-color: rgba(255, 143, 12, 0.5);
+  background: rgba(255, 143, 12, 0.08);
+}
+
+/* ---------- 移动端适配 ---------- */
+@media (max-width: 860px) {
+  .chapter-top {
+    top: 14px;
+    left: 16px;
+  }
+  .chapter-info-toggle {
+    top: 14px;
+    right: 16px;
+  }
+  .chapter-controls {
+    bottom: 12px;
+    gap: 9px;
+    padding: 8px 12px;
+  }
+  .chapter-slider {
+    flex: 1 1 60px;
+    max-width: none;
+    width: auto;
+  }
+  .chapter-stage {
+    display: none;
+  }
+  .chapter-readouts {
+    display: none;
+  }
+  .nebula-next {
+    bottom: 76px;
+  }
+  .hr-panel {
+    display: none;
+  }
+  .chapter-stage--fate {
+    display: none;
+  }
+  .giant-planets {
+    display: none;
+  }
+  .giant-fork {
+    bottom: 76px;
+    padding: 14px 14px 12px;
+  }
+  .wd-ending {
+    bottom: 76px;
+    padding: 14px 16px 12px;
+  }
+  .ns-pad,
+  .ns-wave {
+    display: none;
+  }
+  .ns-caption {
+    bottom: 76px;
+    font-size: 11.5px;
+  }
+}

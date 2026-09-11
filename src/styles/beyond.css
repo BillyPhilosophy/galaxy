@@ -1,0 +1,13 @@
+/* ---------- 太阳之外 · 三体运动 ---------- */
+.era-chip {
+  margin-left: 8px;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+}
+.tb-modes {
+  display: flex;
+  gap: 6px;
+}
+.tb-modes .ctl-toggle {
+  padding: 7px 10px;
+}

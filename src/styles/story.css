@@ -1,0 +1,457 @@
+/* ---------- 宇宙叙事 · 时间轴 ---------- */
+.story-page {
+  position: fixed;
+  inset: 0;
+  overflow-y: auto;
+  padding: 40px 24px 80px;
+  background: radial-gradient(ellipse at 50% -10%, rgba(139, 127, 240, 0.1), transparent 55%),
+    #020204;
+}
+.story-home {
+  position: absolute;
+  top: 20px;
+  left: 24px;
+  color: #74777f;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.story-home:hover {
+  color: #ffb85e;
+}
+.story-head {
+  text-align: center;
+  margin: 26px auto 46px;
+}
+.story-title {
+  margin: 18px 0 0;
+  font-size: clamp(40px, 7vw, 72px);
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  line-height: 1.1;
+  background: linear-gradient(180deg, #ffffff 25%, #c9b8ff 70%, #8b7ff0);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+.story-desc {
+  margin: 22px auto 0;
+  max-width: 460px;
+  font-size: 13px;
+  line-height: 2.1;
+  color: #9da0a8;
+}
+.story-timeline {
+  position: relative;
+  max-width: 620px;
+  margin: 0 auto;
+  padding-left: 34px;
+}
+.story-timeline::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 12px;
+  bottom: 12px;
+  width: 1px;
+  background: linear-gradient(
+    180deg,
+    rgba(179, 136, 255, 0.5),
+    rgba(255, 143, 12, 0.4),
+    rgba(155, 180, 255, 0.35)
+  );
+}
+.story-node {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 16px;
+  margin-bottom: 10px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  color: #ececec;
+  text-decoration: none;
+  transition: background 0.2s, border-color 0.2s;
+}
+.story-node:hover {
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+.story-node-dot {
+  position: absolute;
+  left: -34px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  border: 2px solid #020204;
+}
+.story-node-num {
+  width: 28px;
+  flex: none;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: #74777f;
+}
+.story-node-body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.story-node-title {
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.story-node-en {
+  margin-left: 9px;
+  font-size: 9px;
+  letter-spacing: 0.22em;
+  color: #74777f;
+}
+.story-node-teaser {
+  font-size: 12px;
+  line-height: 1.7;
+  color: #9da0a8;
+}
+.story-node-arrow {
+  margin-left: auto;
+  flex: none;
+  color: rgba(255, 255, 255, 0.35);
+  font-size: 13px;
+  opacity: 0;
+  transform: translateX(-4px);
+  transition: opacity 0.2s, transform 0.2s;
+}
+.story-node:hover .story-node-arrow {
+  opacity: 1;
+  transform: none;
+}
+.story-node--scale {
+  border-color: rgba(139, 127, 240, 0.4);
+  background: rgba(139, 127, 240, 0.06);
+}
+.story-node--scale:hover {
+  border-color: rgba(139, 127, 240, 0.65);
+  background: rgba(139, 127, 240, 0.12);
+}
+.story-node-dot--scale {
+  background: linear-gradient(135deg, #c9b8ff, #8b7ff0);
+  box-shadow: 0 0 10px 2px rgba(139, 127, 240, 0.5);
+}
+.story-badge {
+  margin-left: 9px;
+  padding: 2px 8px;
+  border: 1px solid rgba(139, 127, 240, 0.5);
+  border-radius: 999px;
+  font-size: 9px;
+  letter-spacing: 0.2em;
+  color: #c9b8ff;
+}
+.story-fork {
+  margin: 22px 0 12px;
+}
+.story-fork-label {
+  margin-bottom: 12px;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  color: rgba(246, 201, 68, 0.75);
+}
+.story-branches {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+.story-branch-label {
+  margin: 0 0 8px 4px;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: #74777f;
+}
+.story-branches .story-node {
+  padding: 12px;
+}
+.story-branches .story-node-dot {
+  position: static;
+  transform: none;
+  flex: none;
+  width: 9px;
+  height: 9px;
+  border: none;
+}
+
+/* ---------- 宇宙叙事 · 章节页 ---------- */
+.story-card {
+  width: min(560px, 100%);
+  margin: auto;
+}
+.chapter-branch {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 3px 10px;
+  border: 1px solid rgba(139, 127, 240, 0.4);
+  border-radius: 999px;
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  color: #c9b8ff;
+}
+.chapter-fork {
+  margin-top: 18px;
+}
+.chapter-fork-label {
+  margin-bottom: 10px;
+  text-align: center;
+  font-size: 10px;
+  letter-spacing: 0.3em;
+  text-indent: 0.3em;
+  color: rgba(246, 201, 68, 0.75);
+}
+.chapter-fork-options {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+}
+.chapter-fork-options a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 12px 6px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  color: #ececec;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+.chapter-fork-options a:hover {
+  border-color: rgba(255, 143, 12, 0.5);
+  background: rgba(255, 143, 12, 0.08);
+}
+.chapter-fork-options a span {
+  font-size: 9.5px;
+  letter-spacing: 0.06em;
+  color: #74777f;
+}
+.chapter-nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  margin-top: 20px;
+}
+.chapter-nav-btn {
+  padding: 8px 14px;
+  border: 1px solid rgba(255, 143, 12, 0.35);
+  border-radius: 999px;
+  color: #ffb85e;
+  font-size: 11.5px;
+  letter-spacing: 0.08em;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background 0.2s;
+}
+.chapter-nav-btn:hover {
+  background: rgba(255, 143, 12, 0.12);
+}
+.chapter-nav-btn--home {
+  color: #9da0a8;
+  border-color: rgba(255, 255, 255, 0.14);
+}
+.chapter-nav-btn--home:hover {
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* ---------- 宇宙叙事 · 尺度阶梯 ---------- */
+.scale-page {
+  position: fixed;
+  inset: 0;
+  background: #020204;
+}
+.scale-page canvas {
+  display: block;
+}
+.scale-stars {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.scale-stars::before,
+.scale-stars::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  background: transparent;
+}
+.scale-stars::before {
+  width: 1px;
+  height: 1px;
+  box-shadow:
+    6vw 14vh rgba(255, 255, 255, 0.8), 14vw 62vh rgba(255, 255, 255, 0.5),
+    21vw 30vh rgba(255, 255, 255, 0.7), 27vw 85vh rgba(255, 255, 255, 0.4),
+    33vw 8vh rgba(255, 255, 255, 0.6), 39vw 48vh rgba(255, 255, 255, 0.5),
+    45vw 22vh rgba(255, 255, 255, 0.8), 52vw 70vh rgba(255, 255, 255, 0.4),
+    58vw 12vh rgba(255, 255, 255, 0.6), 64vw 40vh rgba(255, 255, 255, 0.5),
+    70vw 88vh rgba(255, 255, 255, 0.7), 76vw 26vh rgba(255, 255, 255, 0.5),
+    82vw 56vh rgba(255, 255, 255, 0.8), 88vw 8vh rgba(255, 255, 255, 0.4),
+    93vw 74vh rgba(255, 255, 255, 0.6), 11vw 40vh rgba(255, 255, 255, 0.5),
+    48vw 90vh rgba(255, 255, 255, 0.5), 67vw 66vh rgba(255, 255, 255, 0.6);
+}
+.scale-stars::after {
+  width: 2px;
+  height: 2px;
+  opacity: 0.35;
+  box-shadow:
+    10vw 76vh #fff, 18vw 18vh #fff, 30vw 55vh #fff, 42vw 12vh #fff,
+    55vw 45vh #fff, 61vw 82vh #fff, 73vw 8vh #fff, 85vw 34vh #fff,
+    90vw 60vh #fff, 4vw 45vh #fff, 36vw 88vh #fff, 79vw 92vh #fff;
+}
+.scale-hud {
+  position: absolute;
+  z-index: 10;
+}
+.scale-top {
+  top: 20px;
+  left: 24px;
+  display: flex;
+  align-items: flex-start;
+  gap: 18px;
+}
+.scale-back {
+  margin-top: 2px;
+  color: #74777f;
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.scale-back:hover {
+  color: #ffb85e;
+}
+.scale-title {
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+}
+.scale-title small {
+  display: block;
+  margin-top: 3px;
+  font-size: 9px;
+  letter-spacing: 0.34em;
+  color: rgba(246, 201, 68, 0.72);
+}
+.scale-bottom {
+  left: 50%;
+  bottom: 22px;
+  transform: translateX(-50%);
+  width: min(680px, calc(100vw - 32px));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 22px 14px;
+}
+.scale-card {
+  text-align: center;
+}
+.scale-name {
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+}
+.scale-en {
+  margin-top: 3px;
+  font-size: 9px;
+  letter-spacing: 0.3em;
+  color: rgba(246, 201, 68, 0.8);
+}
+.scale-note {
+  margin-top: 6px;
+  font-size: 11.5px;
+  letter-spacing: 0.06em;
+  color: #ffb85e;
+}
+.scale-km {
+  margin-top: 3px;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: #74777f;
+}
+.scale-slider {
+  width: 100%;
+}
+.scale-steps {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+.scale-step {
+  background: none;
+  border: none;
+  padding: 4px 2px;
+  color: #74777f;
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  font-family: inherit;
+  white-space: nowrap;
+  transition: color 0.2s;
+}
+.scale-step:hover {
+  color: #ececec;
+}
+.scale-step.active {
+  color: #ffb85e;
+}
+.scale-hint {
+  font-size: 9px;
+  letter-spacing: 0.24em;
+  color: rgba(255, 255, 255, 0.25);
+}
+
+
+/* ---------- 移动端适配 ---------- */
+@media (max-width: 860px) {
+  .story-page {
+    padding: 32px 16px 64px;
+  }
+  .story-home {
+    left: 16px;
+  }
+  .story-branches {
+    grid-template-columns: 1fr;
+  }
+  .story-node {
+    padding: 12px 10px;
+    gap: 10px;
+  }
+  .story-node-num {
+    width: 24px;
+  }
+  .scale-top {
+    top: 14px;
+    left: 16px;
+  }
+  .scale-bottom {
+    bottom: 12px;
+    padding: 12px 14px;
+  }
+  .scale-name {
+    font-size: 17px;
+  }
+  .scale-hint {
+    display: none;
+  }
+}
