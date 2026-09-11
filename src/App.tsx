@@ -1,4 +1,4 @@
-import { Routes, Route } from 'react-router'
+import { Routes, Route, Navigate } from 'react-router'
 import IntroPage from './pages/IntroPage'
 import Home from './pages/Home'
 import SystemPage from './pages/SystemPage'
@@ -15,6 +15,7 @@ export default function App() {
       <Route path="/story" element={<StoryHub />} />
       <Route path="/story/scale" element={<StoryScale />} />
       <Route path="/story/:id" element={<StoryChapter />} />
+      <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )
 }
