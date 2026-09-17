@@ -94,3 +94,22 @@
   background: #4ddb8a;
   transition: width 0.2s linear;
 }
+
+/* ---------- 太阳之外 · 参宿四 ---------- */
+/* 超新星引爆的全屏白闪 */
+.btg-flash {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  pointer-events: none;
+  background: #fff6ea;
+  animation: btg-flash 0.7s ease-out both;
+}
+@keyframes btg-flash {
+  0% {
+    opacity: 0.95;
+  }
+  100% {
+    opacity: 0;
+  }
+}

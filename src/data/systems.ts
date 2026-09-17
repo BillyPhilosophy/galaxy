@@ -107,8 +107,23 @@ export const STAR_SYSTEMS: StarSystemData[] = [
       { label: '现实对应', value: '半人马座α 三合星' },
     ],
   },
+  {
+    id: 'betelgeuse',
+    name: '参宿四',
+    nameEn: 'BETELGEUSE',
+    color: '#ff5a3c',
+    starType: 'M1-M2 Ia 红超巨星',
+    distance: '约 600 光年',
+    description:
+      '参宿四是猎户座右肩上的红超巨星，半径约 900 倍太阳——放到太阳的位置能吞到火星轨道之外。它只有约一千万岁，却随时可能成为下一颗超新星：亮如满月，白天可见。',
+    facts: [
+      { label: '类型', value: 'M1-M2 Ia 红超巨星' },
+      { label: '距地球', value: '约 600 光年' },
+      { label: '星座', value: '猎户座' },
+      { label: '结局', value: 'II 型超新星 · 中子星' },
+    ],
+  },
 ]
-
 export function findSystem(id: string | null | undefined): StarSystemData | null {
   if (!id) return null
   return STAR_SYSTEMS.find((s) => s.id === id) ?? null

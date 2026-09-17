@@ -117,6 +117,7 @@ export default function ThreeBodySystem({ system }: { system: StarSystemData }) 
       backTo="/"
       backLabel="← 返回首页"
       prev={{ title: '比邻星', to: '/system/proxima-centauri' }}
+      next={{ title: '参宿四', to: '/system/betelgeuse' }}
       controls={controls}
       overlay={
         <>
