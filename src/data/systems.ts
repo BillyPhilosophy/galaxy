@@ -44,6 +44,22 @@ export const STAR_SYSTEMS: StarSystemData[] = [
     ],
   },
   {
+    id: 'pollux',
+    name: '北河三',
+    nameEn: 'POLLUX',
+    color: '#ffc078',
+    starType: 'K0 III 橙巨星',
+    distance: '约 34 光年',
+    description:
+      '北河三是双子座最亮的星，一颗带着行星的橙巨星。它和北河二并称"双子"，其实毫无血缘——只是恰好出现在同一片天空。而北河二更离谱：肉眼看见的一颗星，放大后是六颗星的大家庭。',
+    facts: [
+      { label: '类型', value: 'K0 III 橙巨星' },
+      { label: '距地球', value: '约 34 光年' },
+      { label: '星座', value: '双子座' },
+      { label: '行星', value: '北河三 b（Thestias）' },
+    ],
+  },
+  {
     id: 'kepler-452',
     name: '开普勒-452',
     nameEn: 'KEPLER-452',

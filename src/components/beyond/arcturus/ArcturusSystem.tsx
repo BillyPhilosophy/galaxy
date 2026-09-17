@@ -231,7 +231,7 @@ export default function ArcturusSystem({ system }: { system: StarSystemData }) {
       backTo="/"
       backLabel="← 返回首页"
       prev={{ title: '手枪星', to: '/system/pistol-star' }}
-      next={{ title: '开普勒-452', to: '/system/kepler-452' }}
+      next={{ title: '北河三', to: '/system/pollux' }}
       controls={controls}
       selectedHotspot={selectedHotspot}
       onCloseHotspot={() => setSelectedId(null)}
@@ -243,8 +243,8 @@ export default function ArcturusSystem({ system }: { system: StarSystemData }) {
               <p className="wd-ending-text">
                 十万年后，它溜到了南方低空，暗了一点，却还在走。再给它一百多万年，这位银晕来客会彻底淡出肉眼——能赶上它最亮的时代，恰好是我们。
               </p>
-              <Link to="/system/kepler-452" className="nebula-next wd-next-link">
-                下一站 · 开普勒-452 →
+              <Link to="/system/pollux" className="nebula-next wd-next-link">
+                下一站 · 北河三 →
               </Link>
             </div>
           )}
