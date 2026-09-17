@@ -74,3 +74,23 @@
     inset: 6px;
   }
 }
+
+/* ---------- 太阳之外 · 比邻星 ---------- */
+/* 晨昏带生命指数小血条 */
+.px-life {
+  display: inline-block;
+  width: 72px;
+  height: 8px;
+  margin: 0 6px;
+  border-radius: 4px;
+  background: rgba(255, 255, 255, 0.1);
+  overflow: hidden;
+  vertical-align: middle;
+}
+.px-life i {
+  display: block;
+  height: 100%;
+  border-radius: 4px;
+  background: #4ddb8a;
+  transition: width 0.2s linear;
+}
