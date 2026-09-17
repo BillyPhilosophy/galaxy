@@ -44,6 +44,9 @@ export default function IntroPage() {
               <button className="intro-btn intro-btn--ghost" onClick={() => setView('beyond')}>
                 太阳之外
               </button>
+              <Link to="/lab" className="intro-btn intro-btn--ghost">
+                宇宙实验室
+              </Link>
               <Link to="/story" className="intro-btn intro-btn--ghost">
                 宇宙叙事
               </Link>

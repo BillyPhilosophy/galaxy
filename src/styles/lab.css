@@ -1,0 +1,108 @@
+/* ---------- 宇宙实验室（/lab） ---------- */
+.lab-page {
+  position: fixed;
+  inset: 0;
+  background: #010103;
+  overflow: hidden;
+}
+
+/* 邂逅星系名牌：淡入淡出 */
+.lab-nameplate {
+  top: 76px;
+  left: 50%;
+  transform: translateX(-50%) translateY(-8px);
+  padding: 12px 22px;
+  text-align: center;
+  opacity: 0;
+  transition:
+    opacity 0.5s ease,
+    transform 0.5s ease;
+  pointer-events: none;
+  max-width: min(460px, calc(100vw - 32px));
+}
+.lab-nameplate.on {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+.lab-nameplate-name {
+  font-size: 18px;
+  font-weight: 600;
+}
+.lab-nameplate-en {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: #9aa3b8;
+  margin-top: 3px;
+}
+.lab-nameplate-fact {
+  margin-top: 8px;
+  font-size: 12.5px;
+  color: #c8cede;
+}
+
+/* 底部栏目卡片 */
+.lab-cards {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 12px;
+  max-width: calc(100vw - 24px);
+  overflow-x: auto;
+  padding: 4px;
+}
+.lab-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 12px 18px;
+  min-width: 220px;
+  color: inherit;
+  text-decoration: none;
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease;
+}
+.lab-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(184, 168, 255, 0.5);
+}
+.lab-card-tag {
+  font-size: 10px;
+  color: #ffb85e;
+  letter-spacing: 0.15em;
+}
+.lab-card-name {
+  font-size: 15px;
+  font-weight: 600;
+}
+.lab-card-en {
+  font-size: 10px;
+  color: #9aa3b8;
+  letter-spacing: 0.18em;
+}
+.lab-card-teaser {
+  font-size: 12px;
+  color: #8f96aa;
+  margin-top: 4px;
+}
+.lab-card--ghost {
+  opacity: 0.45;
+  pointer-events: none;
+}
+
+@media (max-width: 860px) {
+  .lab-cards {
+    bottom: 12px;
+    left: 12px;
+    transform: none;
+    max-width: calc(100vw - 24px);
+  }
+  .lab-card {
+    min-width: 190px;
+  }
+  .lab-nameplate {
+    top: 64px;
+  }
+}

@@ -6,6 +6,8 @@ import SystemPage from './pages/SystemPage'
 import StoryHub from './pages/StoryHub'
 import StoryChapter from './pages/StoryChapter'
 import StoryScale from './pages/StoryScale'
+import LabPage from './pages/LabPage'
+import LabChapterPage from './pages/LabChapterPage'
 
 export default function App() {
   return (
@@ -18,6 +20,8 @@ export default function App() {
       <Route path="/story" element={<StoryHub />} />
       <Route path="/story/scale" element={<StoryScale />} />
       <Route path="/story/:id" element={<StoryChapter />} />
+      <Route path="/lab" element={<LabPage />} />
+      <Route path="/lab/:id" element={<LabChapterPage />} />
       <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </>
