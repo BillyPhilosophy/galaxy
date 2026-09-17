@@ -1,6 +1,7 @@
 import type { ComponentType } from 'react'
 import type { StarSystemData } from '../../data/systems'
 import ArcturusSystem from './arcturus/ArcturusSystem'
+import KeplerSystem from './kepler-452/KeplerSystem'
 import PistolSystem from './pistol-star/PistolSystem'
 import PolluxSystem from './pollux/PolluxSystem'
 import ThreeBodySystem from './three-body/ThreeBodySystem'
@@ -10,5 +11,6 @@ export const SYSTEM_REGISTRY: Record<string, ComponentType<{ system: StarSystemD
   'pistol-star': PistolSystem,
   arcturus: ArcturusSystem,
   pollux: PolluxSystem,
+  'kepler-452': KeplerSystem,
   'three-body': ThreeBodySystem,
 }
