@@ -100,6 +100,16 @@ export default function IntroPage() {
             <div className="beyond-hint mono">按 ESC 返回</div>
           </div>
         )}
+        <div className="absolute bottom-4 left-0 right-0 z-50 text-center">
+          <a
+            href="https://beian.miit.gov.cn/"
+            target="_blank"
+            rel="noreferrer"
+            className="text-[11px] tracking-widest text-white/30 hover:text-white/60 transition-colors"
+          >
+            豫ICP备2025115223号-2
+          </a>
+        </div>
       </div>
     </div>
   )
