@@ -348,16 +348,16 @@ export interface LabChapter {
   name: string
   nameEn: string
   teaser: string
-  status: 'wip'
+  status: 'available' | 'wip' | 'planned'
 }
 
 export const LAB_CHAPTERS: LabChapter[] = [
   {
     id: 'galaxy-collision',
-    name: '当银河系与仙女座星系相撞',
+    name: '当银河系与仙女座星系相遇',
     nameEn: 'MILKY WAY × ANDROMEDA',
-    teaser: '40 亿年后的天空',
-    status: 'wip',
+    teaser: '亲手推动几十亿年的可能未来',
+    status: 'available',
   },
 ]
 

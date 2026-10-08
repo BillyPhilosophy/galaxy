@@ -73,6 +73,16 @@
   color: #ffb85e;
   letter-spacing: 0.15em;
 }
+.lab-card--available {
+  border-color: rgba(184, 168, 255, 0.36);
+  background: linear-gradient(135deg, rgba(255, 190, 118, 0.06), rgba(139, 127, 240, 0.1));
+}
+.lab-card--available .lab-card-tag {
+  color: #c9b8ff;
+}
+.lab-card--planned {
+  opacity: 0.55;
+}
 .lab-card-name {
   font-size: 15px;
   font-weight: 600;
@@ -92,6 +102,192 @@
   pointer-events: none;
 }
 
+/* ---------- 银河系 × 仙女座独立实验 ---------- */
+.collision-loading,
+.collision-webgl-fallback {
+  position: fixed;
+  inset: 0;
+  display: grid;
+  place-content: center;
+  justify-items: center;
+  gap: 10px;
+  background: radial-gradient(circle, rgba(139, 127, 240, 0.16), transparent 36%), #010104;
+  color: #ececf5;
+  z-index: 80;
+}
+.collision-loading span {
+  font-size: 9px;
+  letter-spacing: 0.26em;
+  color: #8f96aa;
+}
+.collision-loading-orbits {
+  width: 58px;
+  height: 58px;
+  margin-bottom: 8px;
+  border: 1px solid rgba(184, 168, 255, 0.55);
+  border-radius: 50%;
+  box-shadow: 0 0 24px rgba(139, 127, 240, 0.3), inset 0 0 14px rgba(255, 184, 94, 0.14);
+  animation: collision-orbit 1.8s linear infinite;
+}
+.collision-loading-orbits::after {
+  content: '';
+  display: block;
+  width: 9px;
+  height: 9px;
+  margin: -5px auto 0;
+  border-radius: 50%;
+  background: #ffd79b;
+  box-shadow: 0 0 12px #ffd79b;
+}
+@keyframes collision-orbit {
+  to { transform: rotate(360deg); }
+}
+.collision-controls {
+  gap: 10px;
+  width: min(900px, calc(100vw - 24px));
+}
+.collision-slider {
+  min-width: 120px;
+}
+.collision-view-switch {
+  display: flex;
+  gap: 5px;
+}
+.collision-caption {
+  top: 92px;
+  left: 50%;
+  width: min(620px, calc(100vw - 32px));
+  padding: 14px 18px;
+  text-align: center;
+  transform: translateX(-50%);
+  pointer-events: none;
+  text-shadow: 0 2px 16px #000;
+}
+.collision-caption-time {
+  display: block;
+  margin-bottom: 5px;
+  font-size: 9px;
+  letter-spacing: 0.24em;
+  color: #b8a8ff;
+}
+.collision-caption strong {
+  display: block;
+  font-size: clamp(14px, 2vw, 20px);
+  line-height: 1.55;
+  letter-spacing: 0.07em;
+}
+.collision-caption > span:last-child {
+  display: block;
+  margin: 6px auto 0;
+  max-width: 540px;
+  font-size: 11.5px;
+  line-height: 1.65;
+  color: #aeb2c1;
+}
+.collision-actions {
+  left: 24px;
+  bottom: 24px;
+  display: flex;
+  gap: 8px;
+}
+.collision-quiz {
+  top: 50%;
+  left: 50%;
+  width: min(520px, calc(100vw - 32px));
+  padding: 22px;
+  transform: translate(-50%, -50%);
+  z-index: 45;
+  background: radial-gradient(circle at 14% 10%, rgba(184, 168, 255, 0.15), transparent 38%), rgba(5, 5, 11, 0.93);
+}
+.collision-quiz-close {
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  border: 0;
+  background: none;
+  color: #8f96aa;
+  font-size: 24px;
+  cursor: pointer;
+}
+.collision-guide {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  margin: 0 auto 8px;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #fff, #b8a8ff 30%, #52479b 72%);
+  box-shadow: 0 0 24px rgba(184, 168, 255, 0.58);
+  color: #161121;
+  font-weight: 900;
+}
+.collision-kicker {
+  text-align: center;
+  font-size: 9px;
+  letter-spacing: 0.24em;
+  color: #b8a8ff;
+}
+.collision-quiz-title {
+  margin: 10px auto 16px;
+  max-width: 430px;
+  text-align: center;
+  font-size: 17px;
+  font-weight: 750;
+  line-height: 1.65;
+}
+.collision-answers {
+  display: grid;
+  gap: 8px;
+}
+.collision-answer,
+.collision-result button {
+  min-height: 44px;
+  padding: 10px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.13);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.04);
+  color: #e7e8ee;
+  font: inherit;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+.collision-answer:hover,
+.collision-answer.selected {
+  border-color: rgba(184, 168, 255, 0.65);
+  background: rgba(184, 168, 255, 0.11);
+}
+.collision-result {
+  display: grid;
+  gap: 8px;
+  margin-top: 14px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  font-size: 12px;
+  line-height: 1.75;
+  color: #aeb2c1;
+}
+.collision-result b {
+  color: #ffd79b;
+  font-size: 13.5px;
+}
+.collision-result.correct b {
+  color: #89f0d0;
+}
+.collision-result button {
+  margin-top: 4px;
+  border-color: rgba(255, 215, 155, 0.5);
+  color: #ffd79b;
+}
+.collision-motion-note {
+  right: 24px;
+  bottom: 82px;
+  font-size: 9px;
+  color: #8f96aa;
+}
+.collision-touch {
+  min-height: 38px;
+}
+
 @media (max-width: 860px) {
   .lab-cards {
     bottom: 12px;
@@ -104,5 +300,80 @@
   }
   .lab-nameplate {
     top: 64px;
+  }
+  .collision-controls {
+    bottom: max(10px, env(safe-area-inset-bottom));
+    width: calc(100vw - 20px);
+    gap: 6px;
+    padding: 7px 8px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .collision-touch {
+    min-width: 44px;
+    min-height: 44px;
+    padding: 7px 9px;
+  }
+  .collision-slider {
+    min-width: 58px;
+  }
+  .collision-wide {
+    display: none;
+  }
+  .collision-caption {
+    top: 72px;
+    padding: 10px 12px;
+  }
+  .collision-caption strong {
+    font-size: 14px;
+  }
+  .collision-caption > span:last-child {
+    display: none;
+  }
+  .collision-actions {
+    left: 12px;
+    bottom: 72px;
+    right: 12px;
+    justify-content: center;
+  }
+  .collision-actions .ctl-toggle {
+    background: rgba(3, 3, 8, 0.7);
+  }
+  .collision-quiz {
+    padding: 18px 14px 14px;
+  }
+  .collision-quiz-title {
+    font-size: 15px;
+  }
+  .collision-motion-note {
+    display: none;
+  }
+}
+
+@media (max-width: 560px) {
+  .collision-view-switch .ctl-toggle {
+    width: 44px;
+    overflow: hidden;
+    white-space: nowrap;
+    font-size: 0;
+  }
+  .collision-view-switch .ctl-toggle:first-child::after {
+    content: '地球';
+    font-size: 11px;
+  }
+  .collision-view-switch .ctl-toggle:last-child::after {
+    content: '宇宙';
+    font-size: 11px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .collision-loading-orbits {
+    animation: none;
+  }
+  .collision-answer,
+  .collision-result button,
+  .lab-card {
+    transition: none;
   }
 }

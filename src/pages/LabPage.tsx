@@ -46,8 +46,10 @@ export default function LabPage() {
       </div>
       <div className="hud lab-cards">
         {LAB_CHAPTERS.map((c) => (
-          <Link key={c.id} to={`/lab/${c.id}`} className="lab-card panel">
-            <span className="lab-card-tag mono">建设中</span>
+          <Link key={c.id} to={`/lab/${c.id}`} className={`lab-card panel lab-card--${c.status}`}>
+            <span className="lab-card-tag mono">
+              {c.status === 'available' ? '开始实验' : c.status === 'wip' ? '建设中' : '策划中'}
+            </span>
             <span className="lab-card-name">{c.name}</span>
             <span className="lab-card-en mono">{c.nameEn}</span>
             <span className="lab-card-teaser">{c.teaser} →</span>

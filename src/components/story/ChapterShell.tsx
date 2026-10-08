@@ -41,6 +41,8 @@ interface ChapterShellProps {
   /** 当前选中的场景部件；非空时浮窗切换为部件解说 */
   selectedHotspot?: ChapterHotspot | null
   onCloseHotspot?: () => void
+  /** 右下角操作提示，默认"拖拽旋转 · 滚轮缩放" */
+  hint?: ReactNode
 }
 
 /** 沉浸章节通用外壳：全屏场景 + 左上标题 + 可收起的信息浮窗 */
@@ -55,6 +57,7 @@ export default function ChapterShell({
   overlay,
   selectedHotspot,
   onCloseHotspot,
+  hint = '拖拽旋转 · 滚轮缩放',
 }: ChapterShellProps) {
   const [panelOpen, setPanelOpen] = useState(() => window.innerWidth >= 768)
   const navigate = useNavigate()
@@ -159,7 +162,7 @@ export default function ChapterShell({
       </aside>
       {controls}
       {overlay}
-      <div className="hud hud-hint">拖拽旋转 · 滚轮缩放</div>
+      <div className="hud hud-hint">{hint}</div>
     </div>
   )
 }
