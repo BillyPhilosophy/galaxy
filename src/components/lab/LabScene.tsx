@@ -262,6 +262,12 @@ interface FlyState {
 const tmpForward = new THREE.Vector3()
 const tmpGalaxy = new THREE.Vector3()
 const tmpLook = new THREE.Vector3()
+const targetCamera = new THREE.PerspectiveCamera()
+
+function smoothstep(edge0: number, edge1: number, value: number) {
+  const t = Math.min(1, Math.max(0, (value - edge0) / (edge1 - edge0)))
+  return t * t * (3 - 2 * t)
+}
 
 export default function LabScene({
   onEncounter,
@@ -349,16 +355,19 @@ export default function LabScene({
     const rollTarget = Math.min(0.12, Math.max(-0.12, -(f.x - prevX) / Math.max(cdt, 1e-4) * 0.02))
     f.roll += (rollTarget - f.roll) * Math.min(1, cdt * 3)
 
-    // 视线混合
-    const kTarget = remaining < VISIT_DIST + 10 && remaining > -LEAVE_DIST ? 1 : 0
-    f.visitK += (kTarget - f.visitK) * Math.min(1, cdt * 1.6)
+    // 视线在抵达前转向星系，掠过后先回正，再把目标移交给下一座
+    const lookIn = 1 - smoothstep(VISIT_DIST + 10, APPROACH_DIST, remaining)
+    const lookOut = smoothstep(-LEAVE_DIST, 0, remaining)
+    const kTarget = lookIn * lookOut
+    f.visitK += (kTarget - f.visitK) * Math.min(1, cdt * 2.4)
     camera.position.set(f.x, f.y, f.z)
-    camera.up.set(0, 1, 0)
     tmpForward.set(f.x * 0.5, f.y * 0.5, f.z - 120)
     tmpGalaxy.set(cur.pos[0], cur.pos[1], cur.z)
     tmpLook.lerpVectors(tmpForward, tmpGalaxy, f.visitK * 0.85)
-    camera.lookAt(tmpLook)
-    camera.rotateZ(f.roll)
+    targetCamera.position.copy(camera.position)
+    targetCamera.up.set(-Math.sin(f.roll), Math.cos(f.roll), 0)
+    targetCamera.lookAt(tmpLook)
+    camera.quaternion.slerp(targetCamera.quaternion, 1 - Math.exp(-cdt * 7))
 
     const speedK = Math.min(1, Math.max(0, (f.speed - VISIT_SPEED) / (CRUISE_SPEED - VISIT_SPEED)))
     const cam = camera as THREE.PerspectiveCamera
