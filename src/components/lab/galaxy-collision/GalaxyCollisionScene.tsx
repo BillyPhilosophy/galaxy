@@ -3,14 +3,23 @@ import type { RefObject } from 'react'
 import { useFrame, useThree } from '@react-three/fiber'
 import { OrbitControls } from '@react-three/drei'
 import * as THREE from 'three'
-import { buildCollisionBuffers, COLLISION_STAGE_MARKS, stageIndexAt } from './data'
+import {
+  buildCollisionBuffers,
+  cameraTrackFor,
+  COLLISION_STAGE_MARKS,
+  OUTCOME_CONFIGS,
+  stageIndexAt,
+  sunTrackFor,
+} from './data'
+import type { OutcomeId } from './data'
 
-export type CollisionViewMode = 'sky' | 'cosmic'
+export type CollisionViewMode = 'sky' | 'cosmic' | 'future'
 
 const COLLISION_VERTEX = /* glsl */ `
 uniform float uTime;
 uniform float uProgress;
 uniform float uPixelRatio;
+uniform float uBurstBoost;
 attribute vec3 aStage1;
 attribute vec3 aStage2;
 attribute vec3 aStage3;
@@ -49,7 +58,7 @@ void main() {
   }
 
   float encounter = smoothstep(0.18, 0.36, uProgress) * (1.0 - smoothstep(0.88, 1.0, uProgress));
-  float newborn = aBurst * encounter;
+  float newborn = min(1.0, aBurst * uBurstBoost) * encounter;
   vColor = mix(aColor, vec3(0.75, 0.95, 1.0), newborn * 0.42);
   vAlpha = 0.66 + 0.34 * sin(uTime * (0.45 + aRand) + aRand * 6.2831);
   vAlpha += newborn * (0.35 + 0.25 * sin(uTime * 3.0 + aRand * 20.0));
@@ -98,10 +107,10 @@ interface PointProps {
   count: number
 }
 
-function CollisionPoints({ progressRef, count }: PointProps) {
+function CollisionPoints({ progressRef, count, outcome }: PointProps & { outcome: OutcomeId }) {
   const material = useRef<THREE.ShaderMaterial>(null!)
   const dpr = useThree((state) => state.viewport.dpr)
-  const data = useMemo(() => buildCollisionBuffers(count), [count])
+  const data = useMemo(() => buildCollisionBuffers(count, outcome), [count, outcome])
   const geometry = useMemo(() => {
     const result = new THREE.BufferGeometry()
     result.setAttribute('position', new THREE.BufferAttribute(data.stages[0], 3))
@@ -115,11 +124,19 @@ function CollisionPoints({ progressRef, count }: PointProps) {
     return result
   }, [data])
   const uniforms = useMemo(
-    () => ({ uTime: { value: 0 }, uProgress: { value: 0 }, uPixelRatio: { value: dpr } }),
+    () => ({
+      uTime: { value: 0 },
+      uProgress: { value: 0 },
+      uPixelRatio: { value: dpr },
+      uBurstBoost: { value: 1 },
+    }),
     [dpr],
   )
 
   useEffect(() => () => geometry.dispose(), [geometry])
+  useEffect(() => {
+    material.current.uniforms.uBurstBoost.value = OUTCOME_CONFIGS[outcome].burstBoost
+  }, [outcome])
   useFrame((state) => {
     material.current.uniforms.uTime.value = state.clock.elapsedTime
     material.current.uniforms.uProgress.value = progressRef.current ?? 0
@@ -197,28 +214,45 @@ function BackgroundStars({ count }: { count: number }) {
   )
 }
 
-function buildSkyGalaxy(count: number) {
+function buildSkyGalaxy(count: number, warm: boolean) {
   const positions = new Float32Array(count * 3)
   const colors = new Float32Array(count * 3)
   const sizes = new Float32Array(count)
   const rands = new Float32Array(count)
   for (let i = 0; i < count; i++) {
-    const r = Math.pow(((i * 47) % count) / count, 1.6) * 7
+    const r = Math.pow(((i * 47) % count) / count, warm ? 1.9 : 1.6) * 7
     const arm = i % 2
-    const angle = arm * Math.PI + r * 1.25 + Math.sin(i * 12.9898) * 0.22
+    const angle = arm * Math.PI + r * (warm ? 0.5 : 1.25) + Math.sin(i * 12.9898) * 0.22
     positions.set([Math.cos(angle) * r, Math.sin(i * 3.17) * (0.22 + r * 0.055), Math.sin(angle) * r], i * 3)
     const core = r < 1.5
-    colors.set(core ? [1, 0.84, 0.68] : [0.67, 0.74, 1], i * 3)
+    if (warm) colors.set(core ? [1, 0.82, 0.6] : [0.95, 0.72, 0.66], i * 3)
+    else colors.set(core ? [1, 0.84, 0.68] : [0.67, 0.74, 1], i * 3)
     sizes[i] = core ? 2.1 : 0.7 + (i % 5) * 0.16
     rands[i] = ((i * 31) % 97) / 97
   }
   return { positions, colors, sizes, rands }
 }
 
-function SkyAndromeda({ progressRef, count }: PointProps) {
+interface SkyGalaxyProps extends PointProps {
+  warm?: boolean
+  fixedProgress?: number
+  position?: [number, number, number]
+  rotation?: [number, number, number]
+  scale?: number
+}
+
+function SkyAndromeda({
+  progressRef,
+  count,
+  warm = false,
+  fixedProgress,
+  position,
+  rotation,
+  scale,
+}: SkyGalaxyProps) {
   const material = useRef<THREE.ShaderMaterial>(null!)
   const dpr = useThree((state) => state.viewport.dpr)
-  const data = useMemo(() => buildSkyGalaxy(count), [count])
+  const data = useMemo(() => buildSkyGalaxy(count, warm), [count, warm])
   const geometry = useMemo(() => {
     const result = new THREE.BufferGeometry()
     result.setAttribute('position', new THREE.BufferAttribute(data.positions, 3))
@@ -234,11 +268,11 @@ function SkyAndromeda({ progressRef, count }: PointProps) {
   useEffect(() => () => geometry.dispose(), [geometry])
   useFrame((state) => {
     material.current.uniforms.uTime.value = state.clock.elapsedTime
-    material.current.uniforms.uProgress.value = progressRef.current ?? 0
+    material.current.uniforms.uProgress.value = fixedProgress ?? progressRef.current ?? 0
   })
 
   return (
-    <points position={[4, 7, -72]} rotation={[0.17, -0.15, -0.2]} geometry={geometry} frustumCulled={false}>
+    <points geometry={geometry} frustumCulled={false} position={position} rotation={rotation} scale={scale}>
       <shaderMaterial
         ref={material}
         transparent
@@ -252,30 +286,40 @@ function SkyAndromeda({ progressRef, count }: PointProps) {
   )
 }
 
-const CAMERA_POSITIONS = [
-  new THREE.Vector3(0, 94, 270),
-  new THREE.Vector3(0, 82, 225),
-  new THREE.Vector3(0, 58, 175),
-  new THREE.Vector3(85, 55, 195),
-  new THREE.Vector3(-55, 70, 170),
-  new THREE.Vector3(0, 92, 205),
-]
-const CAMERA_TARGETS = [
-  new THREE.Vector3(0, 0, 0),
-  new THREE.Vector3(0, 0, 0),
-  new THREE.Vector3(0, 0, 0),
-  new THREE.Vector3(28, 0, 2),
-  new THREE.Vector3(0, 0, 0),
-  new THREE.Vector3(0, 0, 0),
-]
-const SUN_TRACK = [
-  new THREE.Vector3(-91, 0, 19),
-  new THREE.Vector3(-58, 0, 13),
-  new THREE.Vector3(-8, 1, 7),
-  new THREE.Vector3(107, 5, 22),
-  new THREE.Vector3(31, 2, 9),
-  new THREE.Vector3(34, 12, 19),
-]
+const HORIZON_VERTEX = /* glsl */ `
+varying vec2 vUv;
+void main() {
+  vUv = uv;
+  gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+}
+`
+
+const HORIZON_FRAGMENT = /* glsl */ `
+varying vec2 vUv;
+uniform vec3 uColor;
+void main() {
+  float a = smoothstep(1.0, 0.55, vUv.y);
+  vec3 col = uColor + vec3(0.035, 0.045, 0.085) * smoothstep(0.35, 0.8, vUv.y);
+  gl_FragColor = vec4(col, a);
+}
+`
+
+/** 地平线剪影：底部不透明、向上平滑消隐，避免硬边接缝 */
+function Horizon({ color }: { color: string }) {
+  const uniforms = useMemo(() => ({ uColor: { value: new THREE.Color(color) } }), [color])
+  return (
+    <mesh position={[0, -18, -80]}>
+      <planeGeometry args={[240, 52]} />
+      <shaderMaterial
+        transparent
+        depthWrite={false}
+        uniforms={uniforms}
+        vertexShader={HORIZON_VERTEX}
+        fragmentShader={HORIZON_FRAGMENT}
+      />
+    </mesh>
+  )
+}
 
 function segmentAt(progress: number) {
   const stage = Math.min(stageIndexAt(progress), COLLISION_STAGE_MARKS.length - 2)
@@ -286,31 +330,35 @@ function segmentAt(progress: number) {
   return { stage, t: t * t * (3 - 2 * t) }
 }
 
-function currentSun(progress: number, out: THREE.Vector3) {
-  if (progress >= 1) return out.copy(SUN_TRACK[SUN_TRACK.length - 1])
+function currentSun(progress: number, track: THREE.Vector3[], out: THREE.Vector3) {
+  if (progress >= 1) return out.copy(track[track.length - 1])
   const { stage, t } = segmentAt(progress)
-  return out.lerpVectors(SUN_TRACK[stage], SUN_TRACK[stage + 1], t)
+  return out.lerpVectors(track[stage], track[stage + 1], t)
 }
 
 function DirectorRig({
   progressRef,
   viewMode,
   focusSun,
+  outcome,
   interactionRef,
   reducedMotion,
 }: {
   progressRef: RefObject<number>
   viewMode: CollisionViewMode
   focusSun: boolean
+  outcome: OutcomeId
   interactionRef: RefObject<number>
   reducedMotion: boolean
 }) {
   const desiredPosition = useMemo(() => new THREE.Vector3(), [])
   const desiredTarget = useMemo(() => new THREE.Vector3(), [])
   const sun = useMemo(() => new THREE.Vector3(), [])
-  const sunOffset = useMemo(() => new THREE.Vector3(20, 15, 28), [])
+  const sunOffset = useMemo(() => new THREE.Vector3(36, 26, 52), [])
   const desiredQuat = useMemo(() => new THREE.Quaternion(), [])
   const lookMatrix = useMemo(() => new THREE.Matrix4(), [])
+  const camTrack = useMemo(() => cameraTrackFor(outcome), [outcome])
+  const sunTrack = useMemo(() => sunTrackFor(outcome), [outcome])
 
   useFrame((state, delta) => {
     const camera = state.camera as THREE.PerspectiveCamera
@@ -318,14 +366,17 @@ function DirectorRig({
     if (viewMode === 'sky') {
       desiredPosition.set(0, 4, 18)
       desiredTarget.set(0, 7, -72)
+    } else if (viewMode === 'future') {
+      desiredPosition.set(0, 6, 20)
+      desiredTarget.set(0, 16, -72)
     } else if (focusSun) {
-      currentSun(progress, sun)
+      currentSun(progress, sunTrack, sun)
       desiredTarget.copy(sun)
       desiredPosition.copy(sun).add(sunOffset)
     } else {
       const { stage, t } = segmentAt(progress)
-      desiredPosition.lerpVectors(CAMERA_POSITIONS[stage], CAMERA_POSITIONS[stage + 1], t)
-      desiredTarget.lerpVectors(CAMERA_TARGETS[stage], CAMERA_TARGETS[stage + 1], t)
+      desiredPosition.lerpVectors(camTrack.positions[stage], camTrack.positions[stage + 1], t)
+      desiredTarget.lerpVectors(camTrack.targets[stage], camTrack.targets[stage + 1], t)
     }
 
     if ((interactionRef.current ?? 0) > 0 && viewMode === 'cosmic' && !focusSun) {
@@ -339,7 +390,7 @@ function DirectorRig({
     lookMatrix.lookAt(camera.position, desiredTarget, camera.up)
     desiredQuat.setFromRotationMatrix(lookMatrix)
     camera.quaternion.slerp(desiredQuat, rotationK)
-    const targetFov = viewMode === 'sky' ? 52 : focusSun ? 48 : 50 + Math.sin(progress * Math.PI) * 8
+    const targetFov = viewMode === 'sky' ? 52 : viewMode === 'future' ? 58 : focusSun ? 50 : 50 + Math.sin(progress * Math.PI) * 8
     if (Math.abs(camera.fov - targetFov) > 0.02) {
       camera.fov += (targetFov - camera.fov) * positionK
       camera.updateProjectionMatrix()
@@ -348,12 +399,20 @@ function DirectorRig({
   return null
 }
 
-function SunBeacon({ progressRef, visible }: { progressRef: RefObject<number>; visible: boolean }) {
+function SunBeacon({
+  progressRef,
+  visible,
+  track,
+}: {
+  progressRef: RefObject<number>
+  visible: boolean
+  track: THREE.Vector3[]
+}) {
   const group = useRef<THREE.Group>(null!)
   const ring = useRef<THREE.Mesh>(null!)
   const sun = useMemo(() => new THREE.Vector3(), [])
   useFrame((state) => {
-    currentSun(progressRef.current ?? 0, sun)
+    currentSun(progressRef.current ?? 0, track, sun)
     group.current.position.copy(sun)
     const pulse = 1 + Math.sin(state.clock.elapsedTime * 3) * 0.16
     ring.current.scale.setScalar(pulse)
@@ -378,43 +437,63 @@ export default function GalaxyCollisionScene({
   count,
   focusSun,
   reducedMotion,
+  outcome,
 }: {
   progressRef: RefObject<number>
   viewMode: CollisionViewMode
   count: number
   focusSun: boolean
   reducedMotion: boolean
+  outcome: OutcomeId
 }) {
   const interactionRef = useRef(0)
   const cosmic = viewMode === 'cosmic'
+  const skyLike = viewMode === 'sky' || viewMode === 'future'
+  const sunTrack = useMemo(() => sunTrackFor(outcome), [outcome])
 
   return (
     <>
-      <color attach="background" args={[viewMode === 'sky' ? '#03040a' : '#010104']} />
-      <BackgroundStars count={viewMode === 'sky' ? 1700 : 1100} />
+      <color attach="background" args={[skyLike ? '#03040a' : '#010104']} />
+      <BackgroundStars count={skyLike ? 1700 : 1100} />
       {cosmic ? (
-        <CollisionPoints progressRef={progressRef} count={count} />
+        <CollisionPoints progressRef={progressRef} count={count} outcome={outcome} />
+      ) : viewMode === 'future' ? (
+        <>
+          <SkyAndromeda
+            progressRef={progressRef}
+            count={Math.max(4200, Math.floor(count * 0.14))}
+            warm
+            fixedProgress={1}
+            position={[0, 18, -74]}
+            rotation={[0.38, -0.08, -0.12]}
+            scale={2.3}
+          />
+          <Horizon color="#070509" />
+        </>
       ) : (
         <>
-          <SkyAndromeda progressRef={progressRef} count={Math.max(3500, Math.floor(count * 0.12))} />
-          <mesh position={[0, -18, -80]}>
-            <planeGeometry args={[240, 44]} />
-            <meshBasicMaterial color="#05070d" />
-          </mesh>
+          <SkyAndromeda
+            progressRef={progressRef}
+            count={Math.max(3500, Math.floor(count * 0.12))}
+            position={[4, 7, -72]}
+            rotation={[0.17, -0.15, -0.2]}
+          />
+          <Horizon color="#05070d" />
         </>
       )}
-      <SunBeacon progressRef={progressRef} visible={cosmic && focusSun} />
+      <SunBeacon progressRef={progressRef} visible={cosmic && focusSun} track={sunTrack} />
       <DirectorRig
         progressRef={progressRef}
         viewMode={viewMode}
         focusSun={focusSun}
+        outcome={outcome}
         interactionRef={interactionRef}
         reducedMotion={reducedMotion}
       />
       <OrbitControls
         makeDefault
         key={viewMode}
-        enabled={cosmic}
+        enabled={cosmic && !focusSun}
         enablePan={false}
         enableDamping
         dampingFactor={0.06}
